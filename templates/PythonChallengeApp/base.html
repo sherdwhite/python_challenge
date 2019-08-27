@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load staticfiles %}
+<link rel="stylesheet" href={% static "PythonChallengeApp/css/style.css" %}>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href={% static "/bootstrap-3.3.7-dist/css/bootstrap.min.css" %}>
+<!-- Latest compiled and minified JavaScript -->
+<script src={% static "/bootstrap-3.3.7-dist/js/bootstrap.min.js" %}></script>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta charset="UTF-8">
+    <title>Python Challenge</title>
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-static-top">
+        <div class = "container">
+            <ul class = "nav navbar-nav">
+                <li><a class="navbar-link" href="{% url 'PythonChallengeApp:index' %}">Welcome</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        {% block body_block %}
+        <!-- Anything outside of this will be inherited if you extend -->
+        {% endblock %}
+    </div>
+
+</body>
+</html>

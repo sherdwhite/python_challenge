@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+{% extends "PythonChallengeApp/base.html" %}
+    {% block body_block %}
+        <h3>{{ title }}</h3>
+
+        <h4>The consolidated screening utilizes a fuzzy logic search.  Due to this, many of these results are</h4>
+        <h4>are not a direct match and do not indicate the name searched is on any of the lists that take part</h4>
+        <h4>in the consolidated screening program.</h4><br>
+
+        <B>Names Searched on <u>{% now "jS F Y H:i" %}</u>:</B><br>
+        {{ names_searched }}<br><br>
+
+        <B>Results:</B>
+        {% if screening_results %}
+        <table class = "table">
+            <thead class="thead-inverse">
+                <th>Match Value</th>
+                <th>Search Value</th>
+                <th>Result Name</th>
+                <th>Address</th>
+                <th>Source List</th>
+                <th>Source List URL</th>
+            </thead>
+
+        {% for result in screening_results %}
+        <tr>
+            <td>{% autoescape off %}{{ result.match }}{% endautoescape %}</td>
+            <td>{{ result.searched }}</td>
+            <td>{{ result.name }}</td>
+            <td>{% autoescape off %}{{ result.addresses }}{% endautoescape %}</td>
+            <td>{{ result.source }}</td>
+            <td>{{ result.url }}</td>
+        </tr>
+        {% endfor %}
+
+        </table>
+        {% else %}
+            <p>No records found!</p>
+
+        {% endif %}<br><br>
+
+        <div class="container">
+            <input class='btn btn-default' type = "submit" name = "create_pdf" class ='button' value="Save as PDF" onClick="javascript:window.print()">
+        </div>
+        <br><br>
+
+    {% endblock %}
+
+
+

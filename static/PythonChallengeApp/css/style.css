@@ -1,0 +1,73 @@
+﻿body {
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 300;
+  color: #000000;
+  /*background: #10579b;*/
+  background: white;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 300;
+  text-align: center;
+}
+
+img {
+    display: block;
+    margin: auto;
+    padding: 10px;
+}
+
+/******************************************************************************************** 
+   BEGIN: Use div.centerwrapper and div.center to force a div to be centered on the page. 
+   See Query pages.
+********************************************************************************************/
+div.centerwrapper{
+    text-align:center;
+}
+
+div.center{
+    display:inline-block;
+}
+/* END: ************************************************************************************/
+
+div.copyright {
+    padding: 10px;
+    margin: auto;
+}
+
+p.copyright {
+    font-size: small;
+    color: black;
+}
+
+#query {
+    margin-left: 25px;
+}
+
+#page {
+    background-color: #ffffff;
+    padding: 10px;
+}
+
+#grid {
+    height: auto;
+    width: auto;
+    left: auto;
+    right: auto;
+    margin: auto;
+    padding: 10px;
+}
+
+#notes {
+    padding: 10px;
+}
+
+/* table, th, td{
+    border: 2px solid black
+}

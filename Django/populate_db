@@ -1,0 +1,39 @@
+import os
+os.environ.setdefault('DJANGO_SETTINGS_MODULE','Django.settings')
+
+import django
+django.setup()
+
+#Fake POP Script
+import random
+from PythonChallengeApp.models import Screening, Customers
+from faker import Faker
+
+fake_gen = Faker()
+customer_name = ['name1','name2''name3''name4''name5']
+
+def Add_Name():
+    n = Customers.get_or_create(cust_name=random.choice(customer_name))[0]
+    n.save()
+    return n
+
+def Populate(N=5):
+    for entry in range(N):
+        #get the topic for the entry
+        cust_name = Add_Name()
+
+        #Create the fake data for that entry
+        fake_company = fake_gen.name()
+        fake_date = fake_gen.date()
+        fake_url = fake_gen.url()
+
+        #Create the new screening entry
+        webpg = Screening.objects.get_or_create(name=cust_name,company_name=fake_company,date_added=fake_date,customer_url=fake_url)[0]
+
+        #Create a fake access record for the page
+        #acc_rec = AccessRecord.objects.get_or_create(name=webpg,date=fake_date)[0]
+
+if __name__ == '__main__':
+    print("Populating script.")
+    Populate(20)
+    print("Population complete.")
