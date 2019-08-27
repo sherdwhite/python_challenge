@@ -1,9 +1,8 @@
 from django.db import models
-import datetime
 
 
-class InputFile(models.Model):
-    names = models.CharField(max_length=2000)
+class IPAddresses(models.Model):
+    ip_address = models.GenericIPAddressField()
 
     def __str__(self):
-        return str(self.names)
+        return str(self.ip_address)

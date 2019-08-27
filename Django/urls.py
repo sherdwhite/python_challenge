@@ -16,10 +16,12 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from django.conf.urls import include
+
 # from PythonChallengeApp import views   # removed, now using relative URLs for future proofing
 
 urlpatterns = [
-    #url(r'^$',views.index,name='index'),   #only needed if you want the base url to display index
-    url(r'^PythonChallenge/', include('PythonChallengeApp.urls')),  # makes visible urls start with ConsolidatedScreening
+    # url(r'^$',views.index,name='index'),   #only needed if you want the base url to display index
+    url(r'^PythonChallenge/', include('PythonChallengeApp.urls')),
+    # makes visible urls start with PythonChallenge
     url(r'^admin/', admin.site.urls),
 ]

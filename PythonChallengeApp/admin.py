@@ -1,8 +1,4 @@
-from django.contrib import admin
-from PythonChallengeApp.models import InputFile
-from django.contrib import admin
+from PythonChallengeApp.models import IPAddresses
 from django.contrib import admin
 
-admin.site.register(InputFile)
-
-
+admin.site.register(IPAddresses)

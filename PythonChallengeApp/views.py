@@ -1,31 +1,40 @@
 # Django imports for page display
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
+
 # Libraries required for data manipulation
 import json
 import requests
-from django.shortcuts import render
 
 # Project imports for forms and models
 from PythonChallengeApp.forms import FileForm
 
 
 # Create your views here.  This is where all custom python code should reside for the project.
+from PythonChallengeApp.models import IPAddresses
 
+
+# https://docs.djangoproject.com/en/2.2/topics/http/file-uploads/
 def index(request):
-    form = FileForm()
-    names = []
+    context = {'title': 'Python Challenge Form'}
     if request.method == 'POST':
-        form = FileForm(request.POST)
+        form = FileForm(request.POST, request.FILES)
         if form.is_valid():
-            ip_file = request.FILES.get('ip_file')
-            ip_addresses = read_ips_from_file(ip_file)
-            return_dict = {'title': 'Python Challenge Form',
-                           'ip_addresses': ip_addresses}
-        # else:
-        # print("Form input invalid.")
+            print("form valid")
+            ip_addresses = read_ips_from_file(request.FILES['ip_file'])
+            context = {'title': 'IP Addresses', 'ip_addresses': ip_addresses}
+            return render(request, 'PythonChallengeApp/results.html', context)
     else:
-        return_dict = {'title': 'Python Challenge Form'}
-        return render(request, 'PythonChallengeApp/index.html', return_dict)
+        form = FileForm()
+        context = {'title': 'Python Challenge Form', 'form': form}
+    return render(request, 'PythonChallengeApp/index.html', context)
 
 
 def read_ips_from_file(ip_file):
     return []
+
+
+def results(request):
+    ip_addresses = IPAddresses.objects.order_by('ip_address')
+    context = {'ip_addresses': ip_addresses, 'title': 'IP Addresses'}
+    return render(request, 'PythonChallengeApp/result.html', context)
