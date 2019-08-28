@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 # Libraries required for data manipulation
+import re
 import json
 import requests
 
@@ -21,7 +22,7 @@ def index(request):
         form = FileForm(request.POST, request.FILES)
         if form.is_valid():
             print("form valid")
-            ip_addresses = read_ips_from_file(request.FILES['ip_file'])
+            ip_addresses = read_ips_from_file(request.FILES.get('ip_file'))
             context = {'title': 'IP Addresses', 'ip_addresses': ip_addresses}
             return render(request, 'PythonChallengeApp/results.html', context)
     else:
@@ -31,10 +32,17 @@ def index(request):
 
 
 def read_ips_from_file(ip_file):
-    return []
+    file = open(ip_file, 'r+')
+    data = file.read().replace('\n', '')
+    file.close()
+    ip_regex = r'(?:[\d]{1,3})\.(?:[\d]{1,3})\.(?:[\d]{1,3})\.(?:[\d]{1,3})'
+    ip_addresses = re.findall(ip_regex, data)
+    return ip_addresses
 
 
 def results(request):
     ip_addresses = IPAddresses.objects.order_by('ip_address')
+    if not ip_addresses:
+        ip_addresses = []
     context = {'ip_addresses': ip_addresses, 'title': 'IP Addresses'}
-    return render(request, 'PythonChallengeApp/result.html', context)
+    return render(request, 'PythonChallengeApp/results.html', context)
