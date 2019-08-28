@@ -22,7 +22,8 @@ def index(request):
         form = FileForm(request.POST, request.FILES)
         if form.is_valid():
             print("form valid")
-            ip_addresses = read_ips_from_file(request.FILES.get('ip_file'))
+            ip_addresses = read_ips_from_file(request.FILES['ip_file'])
+            ip_addresses.sort()
             context = {'title': 'IP Addresses', 'ip_addresses': ip_addresses}
             return render(request, 'PythonChallengeApp/results.html', context)
     else:
@@ -32,9 +33,9 @@ def index(request):
 
 
 def read_ips_from_file(ip_file):
-    file = open(ip_file, 'r+')
-    data = file.read().replace('\n', '')
-    file.close()
+    data = ""
+    for chunk in ip_file.chunks():
+        data += str(chunk)
     ip_regex = r'(?:[\d]{1,3})\.(?:[\d]{1,3})\.(?:[\d]{1,3})\.(?:[\d]{1,3})'
     ip_addresses = re.findall(ip_regex, data)
     return ip_addresses
