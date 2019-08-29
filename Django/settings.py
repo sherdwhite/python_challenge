@@ -16,7 +16,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # TEMPLATE_DIR = os.path.join(BASE_DIR,"templates")
 STATIC_DIR = os.path.join(BASE_DIR, "static")  # static directory holds site images etc.
-MEDIA_DIR = os.path.join(BASE_DIR, "media")          #media directory holds user content such as profile pics
+MEDIA_DIR = os.path.join(BASE_DIR, "media")  # media directory holds user content such as profile pics
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
@@ -27,7 +27,8 @@ SECRET_KEY = 'rh_8lz(h8_fo@!4hkmlaz@v*09p0bs&x*1n@wdgsp(^xoe!m8v'
 DEBUG = True
 
 # python manage.py runserver appname:80 instead of 8000 to hide port from user.
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]']  # python manage.py runserver appname:80 instead of 8000 to hide port from user.
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]']
+# python manage.py runserver appname:80 instead of 8000 to hide port from user.
 # Also add CNAME appname to DNS server.
 # Application definition
 
@@ -56,8 +57,7 @@ ROOT_URLCONF = 'Django.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
-        ,
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
