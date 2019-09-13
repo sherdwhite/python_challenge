@@ -8,7 +8,6 @@ from django.shortcuts import render
 import re
 import json
 import requests
-import xmltodict
 
 # Project imports for forms and models
 from django.db import IntegrityError
@@ -32,27 +31,28 @@ def index(request):
                 geo_ip_json = get_geo_ip_info(ip)
                 print('city: {0}, count: {1}'.format(geo_ip_json.get('city'), count))
                 count += 1
-                # try:
-                #     IPAddresses.objects.create(ip_address=ip,
-                #                                geo_ip_city=geo_ip_json.get('city'),
-                #                                geo_ip_country_code=geo_ip_json.get('country_code'),
-                #                                geo_ip_country_name=geo_ip_json.get('country_name'),
-                #                                geo_ip_latitude=geo_ip_json.get('latitude'),
-                #                                geo_ip_longitude=geo_ip_json.get('longitude'))
-                # except (AttributeError, TypeError, IntegrityError):
-                #     if IntegrityError:
-                #         address = IPAddresses.objects.get(ip_address=ip)
-                #         try:
-                #             address.geo_ip_city = geo_ip_json.get('city'),
-                #             address.geo_ip_country_code = geo_ip_json.get('country_code'),
-                #             address.geo_ip_country_name = geo_ip_json.get('country_name'),
-                #             address.geo_ip_latitude = geo_ip_json.get('latitude'),
-                #             address.geo_ip_longitude = geo_ip_json.get('longitude')
-                #         except (AttributeError, TypeError):
-                #             pass
-                #         address.save()
-                #     else:
-                #         IPAddresses.objects.create(ip_address=ip)
+                if bool(geo_ip_json):
+                    try:
+                        IPAddresses.objects.create(ip_address=ip,
+                                                   geo_ip_city=geo_ip_json.get('city'),
+                                                   geo_ip_country_code=geo_ip_json.get('country_code'),
+                                                   geo_ip_country_name=geo_ip_json.get('country_name'),
+                                                   geo_ip_latitude=geo_ip_json.get('latitude'),
+                                                   geo_ip_longitude=geo_ip_json.get('longitude'))
+                    except (AttributeError, TypeError, IntegrityError):
+                        if IntegrityError:
+                            address = IPAddresses.objects.get(ip_address=ip)
+                            try:
+                                address.geo_ip_city = geo_ip_json.get('city'),
+                                address.geo_ip_country_code = geo_ip_json.get('country_code'),
+                                address.geo_ip_country_name = geo_ip_json.get('country_name'),
+                                address.geo_ip_latitude = geo_ip_json.get('latitude'),
+                                address.geo_ip_longitude = geo_ip_json.get('longitude')
+                            except (AttributeError, TypeError):
+                                pass
+                            address.save()
+                else:
+                    IPAddresses.objects.create(ip_address=ip)
             return render(request, 'PythonChallengeApp/results.html')
     else:
         form = FileForm()
