@@ -1,24 +1,23 @@
 # Django imports for page display
-from pyexpat import ExpatError
-
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
-# Libraries required for data manipulation
+# General imports
 import re
 import json
 import requests
 
-# Project imports for forms and models
+# Project imports for exceptions
 from django.db import IntegrityError
 from urllib3.exceptions import ConnectTimeoutError
+from pyexpat import ExpatError
 
+# Project imports for forms and models
 from PythonChallengeApp.forms import FileForm
-
-# Create your views here.  This is where all custom python code should reside for the project.
 from PythonChallengeApp.models import IPAddresses
 
 
+# Create your views here.  This is where all custom python code should reside for the project.
 # https://docs.djangoproject.com/en/2.2/topics/http/file-uploads/
 def index(request):
     context = {'title': 'Python Challenge Form'}
