@@ -29,27 +29,22 @@ def index(request):
                 geo_ip_dict = get_geo_ip_info(ip)
                 if bool(geo_ip_dict):
                     try:
-                        geo_ip_city = geo_ip_dict.get('city', 'None'),
-                        geo_ip_country_code = geo_ip_dict.get('country_code', 'None'),
-                        geo_ip_country_name = geo_ip_dict.get('country_name', 'None'),
-                        geo_ip_latitude = geo_ip_dict.get('latitude', 'None'),
-                        geo_ip_longitude = geo_ip_dict.get('longitude', 'None')
                         ip_info = IPAddressInfo()
                         ip_info.ip_address = ip
-                        ip_info.geo_ip_city = geo_ip_city[0],
-                        ip_info.geo_ip_country_code = geo_ip_country_code[0],
-                        ip_info.geo_ip_country_name = geo_ip_country_name[0],
-                        ip_info.geo_ip_latitude = geo_ip_latitude[0],
-                        ip_info.geo_ip_longitude = geo_ip_longitude[0]
+                        ip_info.geo_ip_city = geo_ip_dict.get('city', 'None')
+                        ip_info.geo_ip_country_code = geo_ip_dict.get('country_code', 'None')
+                        ip_info.geo_ip_country_name = geo_ip_dict.get('country_name', 'None')
+                        ip_info.geo_ip_latitude = geo_ip_dict.get('latitude', 'None')
+                        ip_info.geo_ip_longitude = geo_ip_dict.get('longitude', 'None')
                         ip_info.save()
                     except (AttributeError, TypeError, IntegrityError):
                         if IntegrityError:
                             address = IPAddressInfo.objects.get(ip_address=ip)
                             try:
-                                address.geo_ip_city = geo_ip_dict.get('city'),
-                                address.geo_ip_country_code = geo_ip_dict.get('country_code'),
-                                address.geo_ip_country_name = geo_ip_dict.get('country_name'),
-                                address.geo_ip_latitude = geo_ip_dict.get('latitude'),
+                                address.geo_ip_city = geo_ip_dict.get('city')
+                                address.geo_ip_country_code = geo_ip_dict.get('country_code')
+                                address.geo_ip_country_name = geo_ip_dict.get('country_name')
+                                address.geo_ip_latitude = geo_ip_dict.get('latitude')
                                 address.geo_ip_longitude = geo_ip_dict.get('longitude')
                             except (AttributeError, TypeError):
                                 pass
