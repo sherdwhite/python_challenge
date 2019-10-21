@@ -8,11 +8,21 @@
         <table class = "table">
             <thead class="thead-inverse">
                 <th>IP Address</th>
+                <th>City</th>
+                <th>Country Code</th>
+                <th>Country Name</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
             </thead>
 
         {% for ip in ip_addresses %}
         <tr>
-            <td>{{ ip }}</td>
+            <td>{{ ip.ip_address }}</td>
+            <td>{{ ip.geo_ip_city }}</td>
+            <td>{{ ip.geo_ip_country_code }}</td>
+            <td>{{ ip.geo_ip_country_name }}</td>
+            <td>{{ ip.geo_ip_latitude }}</td>
+            <td>{{ ip.geo_ip_longitude }}</td>
         </tr>
         {% endfor %}
 

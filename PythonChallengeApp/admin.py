@@ -1,4 +1,4 @@
-from PythonChallengeApp.models import IPAddresses
+from PythonChallengeApp.models import IPAddressInfo
 from django.contrib import admin
 
-admin.site.register(IPAddresses)
+admin.site.register(IPAddressInfo)

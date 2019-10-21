@@ -14,7 +14,7 @@ from pyexpat import ExpatError
 
 # Project imports for forms and models
 from PythonChallengeApp.forms import FileForm
-from PythonChallengeApp.models import IPAddresses
+from PythonChallengeApp.models import IPAddressInfo
 
 
 # Create your views here.  This is where all custom python code should reside for the project.
@@ -25,33 +25,37 @@ def index(request):
         form = FileForm(request.POST, request.FILES)
         if form.is_valid():
             ip_addresses = read_ips_from_file(request.FILES['ip_file'])
-            count = 0
             for ip in ip_addresses:
-                geo_ip_json = get_geo_ip_info(ip)
-                print('city: {0}, count: {1}'.format(geo_ip_json.get('city'), count))
-                count += 1
-                if bool(geo_ip_json):
+                geo_ip_dict = get_geo_ip_info(ip)
+                if bool(geo_ip_dict):
                     try:
-                        IPAddresses.objects.create(ip_address=ip,
-                                                   geo_ip_city=geo_ip_json.get('city'),
-                                                   geo_ip_country_code=geo_ip_json.get('country_code'),
-                                                   geo_ip_country_name=geo_ip_json.get('country_name'),
-                                                   geo_ip_latitude=geo_ip_json.get('latitude'),
-                                                   geo_ip_longitude=geo_ip_json.get('longitude'))
+                        geo_ip_city = geo_ip_dict.get('city', 'None'),
+                        geo_ip_country_code = geo_ip_dict.get('country_code', 'None'),
+                        geo_ip_country_name = geo_ip_dict.get('country_name', 'None'),
+                        geo_ip_latitude = geo_ip_dict.get('latitude', 'None'),
+                        geo_ip_longitude = geo_ip_dict.get('longitude', 'None')
+                        ip_info = IPAddressInfo()
+                        ip_info.ip_address = ip
+                        ip_info.geo_ip_city = geo_ip_city[0],
+                        ip_info.geo_ip_country_code = geo_ip_country_code[0],
+                        ip_info.geo_ip_country_name = geo_ip_country_name[0],
+                        ip_info.geo_ip_latitude = geo_ip_latitude[0],
+                        ip_info.geo_ip_longitude = geo_ip_longitude[0]
+                        ip_info.save()
                     except (AttributeError, TypeError, IntegrityError):
                         if IntegrityError:
-                            address = IPAddresses.objects.get(ip_address=ip)
+                            address = IPAddressInfo.objects.get(ip_address=ip)
                             try:
-                                address.geo_ip_city = geo_ip_json.get('city'),
-                                address.geo_ip_country_code = geo_ip_json.get('country_code'),
-                                address.geo_ip_country_name = geo_ip_json.get('country_name'),
-                                address.geo_ip_latitude = geo_ip_json.get('latitude'),
-                                address.geo_ip_longitude = geo_ip_json.get('longitude')
+                                address.geo_ip_city = geo_ip_dict.get('city'),
+                                address.geo_ip_country_code = geo_ip_dict.get('country_code'),
+                                address.geo_ip_country_name = geo_ip_dict.get('country_name'),
+                                address.geo_ip_latitude = geo_ip_dict.get('latitude'),
+                                address.geo_ip_longitude = geo_ip_dict.get('longitude')
                             except (AttributeError, TypeError):
                                 pass
                             address.save()
                 else:
-                    IPAddresses.objects.create(ip_address=ip)
+                    IPAddressInfo.objects.create(ip_address=ip)
             return render(request, 'PythonChallengeApp/results.html')
     else:
         form = FileForm()
@@ -73,16 +77,16 @@ def get_geo_ip_info(ip_address):
     try:
         geo_ip_info = requests.get(geo_ip_url, timeout=10)
         if geo_ip_info.status_code == 200:
-            geo_ip_json = json.loads(geo_ip_info.text)
+            geo_ip_dict = json.loads(geo_ip_info.text)
         else:
-            geo_ip_json = json.dumps({})
+            geo_ip_dict = json.dumps({})
     except (ExpatError, requests.exceptions.ConnectionError, ConnectTimeoutError):
-        geo_ip_json = json.dumps({})
-    return geo_ip_json
+        geo_ip_dict = json.dumps({})
+    return geo_ip_dict
 
 
 def results(request):
-    ip_addresses = IPAddresses.objects.order_by('ip_address')
+    ip_addresses = IPAddressInfo.objects.order_by('ip_address')
     if not ip_addresses:
         ip_addresses = []
     context = {'ip_addresses': ip_addresses, 'title': 'IP Addresses'}
