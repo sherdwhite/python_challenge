@@ -7,9 +7,10 @@
         <form action="{% url 'PythonChallengeApp:results' %}" method="get">
         {% csrf_token %}
             <div class="form-group">
-                <label class="control-label col-sm-2" for="name">IP Filter:</label>
+                <label class="control-label col-sm-1" for="name">IP Filter:</label>
                 <div class="col-sm-3">
-                    <input name="ip_address" type="text" placeholder="Enter partial or full IP to filter by...">
+                    <input class="form-control col-sm-1-1" name="ip_address" type="text"
+                           placeholder="Enter partial or full IP to filter by...">
                 </div>
             </div>
         </form> <br><br>
