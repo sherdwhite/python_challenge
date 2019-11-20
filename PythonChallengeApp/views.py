@@ -1,8 +1,10 @@
-# Django imports for page display
+# Django and rest imports
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic import ListView
 from django.db.models import Q
+
+from rest_framework import viewsets
 
 # General imports
 import re
@@ -14,9 +16,10 @@ from django.db import IntegrityError
 from urllib3.exceptions import ConnectTimeoutError
 from pyexpat import ExpatError
 
-# Project imports for forms and models
+# Project imports for forms, models, serializers
 from PythonChallengeApp.forms import FileForm
 from PythonChallengeApp.models import IPAddressInfo
+from PythonChallengeApp.serializers import IPInfoSerializer
 
 
 # Create your views here.  This is where all custom python code should reside for the project.
@@ -97,3 +100,11 @@ class Results(ListView):
         else:
             addresses = IPAddressInfo.objects.order_by('ip_address')
         return addresses
+
+
+class IPAddressViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows IP's to be viewed.
+    """
+    queryset = IPAddressInfo.objects.all().order_by('ip_address')
+    serializer_class = IPInfoSerializer

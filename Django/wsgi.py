@@ -15,7 +15,6 @@ import sys
 
 from django.core.wsgi import get_wsgi_application
 
-sys.path.append('C:/Users/Sherd/Documents/Django/Engineering')
 sys.path.append('C:/Python/Lib/site-packages')
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "Django.settings")
