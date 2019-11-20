@@ -1,6 +1,8 @@
 # Django imports for page display
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.views.generic import ListView
+from django.db.models import Q
 
 # General imports
 import re
@@ -80,9 +82,18 @@ def get_geo_ip_info(ip_address):
     return geo_ip_dict
 
 
-def results(request):
-    ip_addresses = IPAddressInfo.objects.order_by('ip_address')
-    if not ip_addresses:
-        ip_addresses = []
-    context = {'ip_addresses': ip_addresses, 'title': 'IP Addresses'}
-    return render(request, 'PythonChallengeApp/results.html', context)
+class Results(ListView):
+    context_object_name = 'ip_addresses'  # will now return gauges instead of gauges_list
+    model = IPAddressInfo  # will return list called gauges_list if no context_object_name declared
+    ordering = ['ip_address']
+    template_name = 'PythonChallengeApp/results.html'
+
+    def get_queryset(self):
+        query = self.request.GET.get('ip_address', None)
+        if query:
+            addresses = IPAddressInfo.objects.filter(
+                Q(ip_address__icontains=query)
+            ).order_by('ip_address')
+        else:
+            addresses = IPAddressInfo.objects.order_by('ip_address')
+        return addresses

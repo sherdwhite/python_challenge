@@ -6,5 +6,5 @@ app_name = 'PythonChallengeApp'
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'^results/$', views.results, name='results'),
+    url(r'^results/$', views.Results.as_view(), name='results'),
 ]

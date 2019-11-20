@@ -4,6 +4,16 @@
     {% block body_block %}
         <h3>{{ title }}</h3>
 
+        <form action="{% url 'PythonChallengeApp:results' %}" method="get">
+        {% csrf_token %}
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="name">IP Filter:</label>
+                <div class="col-sm-3">
+                    <input name="ip_address" type="text" placeholder="Enter partial or full IP to filter by...">
+                </div>
+            </div>
+        </form> <br><br>
+
         {% if ip_addresses %}
         <table class = "table">
             <thead class="thead-inverse">
