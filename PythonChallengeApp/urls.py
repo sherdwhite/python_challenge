@@ -7,11 +7,11 @@ from rest_framework import routers
 app_name = 'PythonChallengeApp'
 
 router = routers.DefaultRouter()
-router.register(r'ip_addresses', views.IPAddressViewSet)
+router.register(r'ip_addresses', views.IPAddressViewSet, base_name='ip_addresses')
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^results/$', views.Results.as_view(), name='results'),
-    url(r'^ip_addresses/$', views.IPAddressViewSet, name='ip_addresses'),
+    path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
