@@ -7,7 +7,7 @@ from rest_framework import routers
 app_name = 'PythonChallengeApp'
 
 router = routers.DefaultRouter()
-router.register(r'ip_addresses', views.IPAddressViewSet, base_name='ip_addresses')
+router.register(r'ip_addresses', views.IPAddressViewSet)
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),

@@ -73,7 +73,7 @@ def read_ips_from_file(ip_file):
 
 
 def get_geo_ip_info(ip_address):
-    geo_ip_url = 'http://api.ipstack.com/{}?access_key=c2ca6e08e41d2059cb9f81db0cd24f05'.format(ip_address)
+    geo_ip_url = 'http://api.ipstack.com/{}?access_key=f17108760d7bcebd6b15088c3298e1f4'.format(ip_address)
     try:
         geo_ip_info = requests.get(geo_ip_url, timeout=10)
         if geo_ip_info.status_code == 200:
