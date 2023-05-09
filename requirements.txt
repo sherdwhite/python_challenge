@@ -1,5 +1,5 @@
 djangorestframework==3.12.4
 urllib3==1.26.7
 requests==2.26.0
-django==3.2.18
+django==3.2.19
 xmltodict==0.12.0
