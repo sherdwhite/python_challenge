@@ -1,4 +1,4 @@
-djangorestframework==3.12.4
+djangorestframework==3.15.2
 urllib3==1.26.19
 requests==2.32.0
 django==3.2.25
